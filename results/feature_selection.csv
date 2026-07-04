@@ -1,0 +1,9 @@
+Feature_Subset,Num_Features,Features,MAE
+corr>=0.0,13,"proline, color_intensity, class, alcalinity_of_ash, total_phenols, magnesium, flavanoids, ash, nonflavanoid_phenols, proanthocyanins, malic_acid, od280_od315, hue",0.3658
+corr>=0.1,10,"proline, color_intensity, class, alcalinity_of_ash, total_phenols, magnesium, flavanoids, ash, nonflavanoid_phenols, proanthocyanins",0.3849
+corr>=0.2,8,"proline, color_intensity, class, alcalinity_of_ash, total_phenols, magnesium, flavanoids, ash",0.3902
+corr>=0.3,4,"proline, color_intensity, class, alcalinity_of_ash",0.3895
+corr>=0.4,2,"proline, color_intensity",0.3972
+Top-3,3,"proline, color_intensity, class",0.3883
+Top-5,5,"proline, color_intensity, class, alcalinity_of_ash, total_phenols",0.3884
+All features,13,"proline, color_intensity, class, alcalinity_of_ash, total_phenols, magnesium, flavanoids, ash, nonflavanoid_phenols, proanthocyanins, malic_acid, od280_od315, hue",0.3658
