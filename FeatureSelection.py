@@ -103,29 +103,26 @@ def FeatureSelection() -> None:
             X, y, test_size=0.3, random_state=42
         )
 
-        # Define feature subsets
-        thresholds = [0.0, 0.1, 0.2, 0.3, 0.4]
-        feature_sets = {}
-        top_features = corr_with_target.index.tolist()
-
-        for thresh in thresholds:
-            selected = corr_with_target[corr_with_target >= thresh].index.tolist()
-            if selected:
-                feature_sets[f"corr>={thresh}"] = selected
-
-        feature_sets["Top-3"] = top_features[:3]
-        feature_sets["Top-5"] = top_features[:5]
-        feature_sets["All features"] = top_features
-
+        from sklearn.feature_selection import SelectKBest, f_regression
+        
         results = []
-        for subset_name, feat_list in feature_sets.items():
+        k_values = [3, 5, 8, 10, X.shape[1]]
+        for k in k_values:
+            subset_name = f"Top-{k} (SelectKBest)" if k != X.shape[1] else "All features"
+            
+            selector = SelectKBest(score_func=f_regression, k=k)
+            X_tr_sel = selector.fit_transform(X_train, y_train)
+            X_te_sel = selector.transform(X_test)
+            
+            feat_list = X.columns[selector.get_support()].tolist()
+
             scaler = StandardScaler()
-            X_tr = scaler.fit_transform(X_train[feat_list])
-            X_te = scaler.transform(X_test[feat_list])
+            X_tr_scaled = scaler.fit_transform(X_tr_sel)
+            X_te_scaled = scaler.transform(X_te_sel)
 
             model = LinearRegression()
-            model.fit(X_tr, y_train)
-            y_pred = model.predict(X_te)
+            model.fit(X_tr_scaled, y_train)
+            y_pred = model.predict(X_te_scaled)
             mae = mean_absolute_error(y_test, y_pred)
 
             results.append(
